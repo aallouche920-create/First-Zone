@@ -23,18 +23,142 @@ export const Route = createFileRoute("/")({
 });
 
 const orderTypes = [
-  { id: "company", title: "طلب شركة", text: "زي موحّد لفريقك أو فعاليتك", label: "ابدأ طلب شركتك", crop: "object-[18%_center]" },
-  { id: "brand", title: "علامتك الخاصة", text: "أطلق مجموعتك بطباعة مميزة", label: "ابدأ مجموعتك", crop: "object-center" },
-  { id: "individual", title: "طلب شخصي", text: "قطعة خاصة لك أو لمناسبتك", label: "صمّم قطعتك", crop: "object-[72%_center]" },
+  { id: "company", crop: "object-[18%_center]" },
+  { id: "brand", crop: "object-center" },
+  { id: "individual", crop: "object-[72%_center]" },
 ] as const;
 
 type CustomerType = (typeof orderTypes)[number]["id"];
+type Language = "ar" | "fr" | "en";
+
+const translations = {
+  ar: {
+    tagline: "طباعة بجودة تصنع الفرق",
+    languageLabel: "اختر اللغة",
+    eyebrow: "من فكرتك إلى قطعة تُلبس",
+    title: <>لكل فكرة،<br />طبعتها الخاصة.</>,
+    intro: "اختر نوع طلبك، أخبرنا ما تريد، ونحن نهتم بالتفاصيل من الطباعة حتى التجهيز.",
+    productImageAlt: "ملابس جاهزة للطباعة",
+    orderTypes: {
+      company: { title: "طلب شركة", text: "زي موحّد لفريقك أو فعاليتك", label: "ابدأ طلب شركتك" },
+      brand: { title: "علامتك الخاصة", text: "أطلق مجموعتك بطباعة مميزة", label: "ابدأ مجموعتك" },
+      individual: { title: "طلب شخصي", text: "قطعة خاصة لك أو لمناسبتك", label: "صمّم قطعتك" },
+    },
+    startNow: "ابدأ الطلب الآن",
+    newOrder: "طلب جديد",
+    formTitle: <>أخبرنا ماذا<br />تريد أن نطبع.</>,
+    formIntro: "املأ التفاصيل الأساسية وسيراجع فريق First Zone طلبك.",
+    benefits: ["طباعة للشركات والأفراد", "كميات صغيرة وكبيرة", "تنفيذ حسب التصميم المطلوب"],
+    successTitle: "وصلنا طلبك",
+    successText: "تم حفظ التفاصيل بنجاح، وسيتم التواصل معك لاستكمال الطلب.",
+    anotherOrder: "إرسال طلب آخر",
+    name: "الاسم أو اسم الشركة",
+    namePlaceholder: "الاسم الكامل",
+    phone: "رقم الهاتف",
+    phonePlaceholder: "رقم للتواصل",
+    email: "البريد الإلكتروني",
+    optional: "اختياري",
+    product: "نوع القطعة",
+    productOptions: ["تيشيرت", "هودي", "بولو", "ملابس عمل", "أخرى"],
+    quantity: "الكمية",
+    quantityPlaceholder: "مثال: 25",
+    details: "تفاصيل الطباعة",
+    detailsPlaceholder: "الألوان، أماكن الطباعة، المقاسات وأي تفاصيل أخرى...",
+    error: "تعذر إرسال الطلب. تحقق من المعلومات وحاول مرة أخرى.",
+    sending: "جارٍ الإرسال...",
+    submit: "إرسال طلب الطباعة",
+    footer: "FIRST ZONE — طباعة بهوية أقوى",
+  },
+  fr: {
+    tagline: "Une impression qui fait la différence",
+    languageLabel: "Choisir la langue",
+    eyebrow: "De votre idée à une pièce à porter",
+    title: <>Chaque idée<br />mérite son impression.</>,
+    intro: "Choisissez votre type de commande, décrivez votre projet et nous nous occupons de tout, de l’impression à la préparation.",
+    productImageAlt: "Vêtements prêts à imprimer",
+    orderTypes: {
+      company: { title: "Entreprise", text: "Tenues pour votre équipe ou événement", label: "Démarrer votre commande" },
+      brand: { title: "Votre marque", text: "Lancez votre collection personnalisée", label: "Créer votre collection" },
+      individual: { title: "Particulier", text: "Une pièce unique pour vous ou un événement", label: "Créer votre pièce" },
+    },
+    startNow: "Commander maintenant",
+    newOrder: "Nouvelle commande",
+    formTitle: <>Dites-nous ce que<br />vous souhaitez imprimer.</>,
+    formIntro: "Renseignez les informations essentielles. L’équipe First Zone étudiera votre demande.",
+    benefits: ["Impression pour entreprises et particuliers", "Petites et grandes quantités", "Réalisation selon votre design"],
+    successTitle: "Demande reçue",
+    successText: "Vos informations ont bien été enregistrées. Nous vous contacterons pour finaliser la commande.",
+    anotherOrder: "Envoyer une autre demande",
+    name: "Nom ou entreprise",
+    namePlaceholder: "Nom complet",
+    phone: "Téléphone",
+    phonePlaceholder: "Numéro de contact",
+    email: "E-mail",
+    optional: "Facultatif",
+    product: "Type de vêtement",
+    productOptions: ["T-shirt", "Sweat à capuche", "Polo", "Vêtement de travail", "Autre"],
+    quantity: "Quantité",
+    quantityPlaceholder: "Exemple : 25",
+    details: "Détails d’impression",
+    detailsPlaceholder: "Couleurs, emplacements, tailles et autres détails...",
+    error: "Impossible d’envoyer la demande. Vérifiez les informations et réessayez.",
+    sending: "Envoi en cours...",
+    submit: "Envoyer la demande",
+    footer: "FIRST ZONE — UNE IDENTITÉ PLUS FORTE PAR L’IMPRESSION",
+  },
+  en: {
+    tagline: "Quality printing that makes a difference",
+    languageLabel: "Choose language",
+    eyebrow: "From your idea to something you can wear",
+    title: <>Every idea deserves<br />its own print.</>,
+    intro: "Choose your order type, tell us what you need, and we’ll handle every detail from printing to preparation.",
+    productImageAlt: "Garments ready for printing",
+    orderTypes: {
+      company: { title: "Business", text: "Uniforms for your team or event", label: "Start a business order" },
+      brand: { title: "Your brand", text: "Launch your own printed collection", label: "Start your collection" },
+      individual: { title: "Personal", text: "A unique piece for you or your occasion", label: "Create your piece" },
+    },
+    startNow: "Start your order",
+    newOrder: "New order",
+    formTitle: <>Tell us what<br />you want printed.</>,
+    formIntro: "Share the essentials and the First Zone team will review your request.",
+    benefits: ["Printing for businesses and individuals", "Small and large quantities", "Produced to match your design"],
+    successTitle: "We received your request",
+    successText: "Your details were saved successfully. We’ll contact you to complete the order.",
+    anotherOrder: "Send another request",
+    name: "Name or company name",
+    namePlaceholder: "Full name",
+    phone: "Phone number",
+    phonePlaceholder: "Contact number",
+    email: "Email address",
+    optional: "Optional",
+    product: "Garment type",
+    productOptions: ["T-shirt", "Hoodie", "Polo", "Workwear", "Other"],
+    quantity: "Quantity",
+    quantityPlaceholder: "Example: 25",
+    details: "Printing details",
+    detailsPlaceholder: "Colors, print placement, sizes, and any other details...",
+    error: "We couldn’t send your request. Check the information and try again.",
+    sending: "Sending...",
+    submit: "Send printing request",
+    footer: "FIRST ZONE — PRINT A STRONGER IDENTITY",
+  },
+} as const;
+
+const languageOptions: { id: Language; label: string }[] = [
+  { id: "ar", label: "العربية" },
+  { id: "fr", label: "Français" },
+  { id: "en", label: "English" },
+];
 
 function Index() {
   const formRef = useRef<HTMLElement>(null);
   const submitOrder = useServerFn(submitOrderRequest);
+  const [language, setLanguage] = useState<Language>("ar");
   const [customerType, setCustomerType] = useState<CustomerType>("company");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const copy = translations[language];
+  const isRtl = language === "ar";
 
   const chooseType = (type: CustomerType) => {
     setCustomerType(type);
@@ -66,86 +190,92 @@ function Index() {
   };
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      <header className="mx-auto flex h-24 max-w-6xl items-center justify-between px-5 sm:px-8">
+    <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden bg-background text-foreground">
+      <header className="mx-auto flex min-h-24 max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
         <img src={logoAsset.url} alt="First Zone" className="h-14 w-24 rounded-md object-cover object-center" />
-        <div className="flex items-center gap-3 text-xs font-semibold text-muted-foreground sm:text-sm">
-          <span className="hidden sm:inline">طباعة بجودة تصنع الفرق</span>
-          <span className="h-2 w-2 rounded-full bg-brand-blue" />
+        <div className="flex items-center gap-3">
+          <span className="hidden text-xs font-semibold text-muted-foreground lg:inline">{copy.tagline}</span>
+          <div role="group" aria-label={copy.languageLabel} className="flex rounded-lg border border-border bg-card p-1 shadow-sm">
+            {languageOptions.map((option) => (
+              <Button key={option.id} type="button" size="sm" variant={language === option.id ? "default" : "ghost"} onClick={() => setLanguage(option.id)} lang={option.id} className="h-8 px-2.5">
+                {option.label}
+              </Button>
+            ))}
+          </div>
         </div>
       </header>
 
       <section className="mx-auto max-w-6xl px-5 pb-16 pt-8 sm:px-8 sm:pt-16">
         <div className="mb-10 max-w-3xl">
-          <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" /> من فكرتك إلى قطعة تُلبس</p>
-          <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">لكل فكرة،<br />طبعتها الخاصة.</h1>
-          <p className="mt-5 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">اختر نوع طلبك، أخبرنا ما تريد، ونحن نهتم بالتفاصيل من الطباعة حتى التجهيز.</p>
+          <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" />{copy.eyebrow}</p>
+          <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
+          <p className="mt-5 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">{copy.intro}</p>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
           {orderTypes.map((type) => (
             <article key={type.id} className="group grid min-h-44 grid-cols-[42%_58%] overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-sm lg:min-h-64 lg:grid-cols-1 lg:grid-rows-[52%_48%]">
-              <img src={productsImage} alt="ملابس جاهزة للطباعة" width={1024} height={1024} className={`h-full w-full object-cover ${type.crop}`} />
+              <img src={productsImage} alt={copy.productImageAlt} width={1024} height={1024} className={`h-full w-full object-cover ${type.crop}`} />
               <div className="flex flex-col justify-center p-5 lg:p-6">
-                <h2 className="text-xl font-extrabold lg:text-2xl">{type.title}</h2>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">{type.text}</p>
+                <h2 className="text-xl font-extrabold lg:text-2xl">{copy.orderTypes[type.id].title}</h2>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">{copy.orderTypes[type.id].text}</p>
                 <Button type="button" variant="link" onClick={() => chooseType(type.id)} className="mt-3 h-auto justify-start p-0 text-sm font-bold no-underline">
-                  {type.label}<ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
+                  {copy.orderTypes[type.id].label}<ArrowLeft className={`size-4 transition-transform ${isRtl ? "group-hover:-translate-x-1" : "rotate-180 group-hover:translate-x-1"}`} />
                 </Button>
               </div>
             </article>
           ))}
         </div>
-        <button type="button" onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} aria-label="انتقل إلى نموذج الطلب" className="mx-auto mt-10 flex cursor-pointer flex-col items-center gap-2 text-xs text-muted-foreground">
-          ابدأ الطلب الآن <ChevronDown className="size-5 animate-bounce" />
-        </button>
+        <Button type="button" variant="ghost" onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} aria-label={copy.startNow} className="mx-auto mt-10 flex h-auto flex-col items-center gap-2 text-xs text-muted-foreground">
+          {copy.startNow}<ChevronDown className="size-5 animate-bounce" />
+        </Button>
       </section>
 
       <section ref={formRef} className="bg-surface-strong px-5 py-16 text-primary-foreground sm:px-8 sm:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.75fr_1.25fr]">
           <div>
-            <span className="inline-flex rounded-full border border-primary-foreground/20 px-4 py-2 text-xs font-semibold">طلب جديد</span>
-            <h2 className="mt-6 text-3xl font-extrabold leading-[1.45] sm:text-5xl">أخبرنا ماذا<br />تريد أن نطبع.</h2>
-            <p className="mt-5 max-w-sm text-sm leading-7 text-primary-foreground/65">املأ التفاصيل الأساسية وسيراجع فريق First Zone طلبك.</p>
+            <span className="inline-flex rounded-full border border-primary-foreground/20 px-4 py-2 text-xs font-semibold">{copy.newOrder}</span>
+            <h2 className="mt-6 text-3xl font-extrabold leading-[1.45] sm:text-5xl">{copy.formTitle}</h2>
+            <p className="mt-5 max-w-sm text-sm leading-7 text-primary-foreground/65">{copy.formIntro}</p>
             <div className="mt-10 space-y-4 text-sm text-primary-foreground/80">
-              {["طباعة للشركات والأفراد", "كميات صغيرة وكبيرة", "تنفيذ حسب التصميم المطلوب"].map((item) => <p key={item} className="flex items-center gap-3"><Check className="size-4 text-brand-blue" />{item}</p>)}
+              {copy.benefits.map((item) => <p key={item} className="flex items-center gap-3"><Check className="size-4 text-brand-blue" />{item}</p>)}
             </div>
           </div>
 
           {status === "success" ? (
             <div className="flex min-h-[30rem] flex-col items-center justify-center rounded-[1.5rem] bg-card p-8 text-center text-card-foreground">
               <span className="grid size-16 place-items-center rounded-full bg-accent text-primary"><PackageCheck className="size-8" /></span>
-              <h3 className="mt-6 text-2xl font-extrabold">وصلنا طلبك</h3>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">تم حفظ التفاصيل بنجاح، وسيتم التواصل معك لاستكمال الطلب.</p>
-              <Button className="mt-7" onClick={() => setStatus("idle")}>إرسال طلب آخر</Button>
+              <h3 className="mt-6 text-2xl font-extrabold">{copy.successTitle}</h3>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">{copy.successText}</p>
+              <Button className="mt-7" onClick={() => setStatus("idle")}>{copy.anotherOrder}</Button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="rounded-[1.5rem] bg-card p-6 text-card-foreground shadow-2xl sm:p-8">
               <div className="mb-7 grid grid-cols-3 gap-2 rounded-xl bg-muted p-1.5">
-                {orderTypes.map((type) => <Button key={type.id} type="button" variant={customerType === type.id ? "default" : "ghost"} onClick={() => setCustomerType(type.id)} className="h-11 px-2 text-xs sm:text-sm">{type.title}</Button>)}
+                {orderTypes.map((type) => <Button key={type.id} type="button" variant={customerType === type.id ? "default" : "ghost"} onClick={() => setCustomerType(type.id)} className="h-11 px-2 text-xs sm:text-sm">{copy.orderTypes[type.id].title}</Button>)}
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
-                <Field label="الاسم أو اسم الشركة" name="name" placeholder="الاسم الكامل" required />
-                <Field label="رقم الهاتف" name="phone" type="tel" placeholder="رقم للتواصل" required />
-                <Field label="البريد الإلكتروني" name="email" type="email" placeholder="اختياري" />
-                <label className="grid gap-2 text-sm font-semibold">نوع القطعة
+                <Field label={copy.name} name="name" placeholder={copy.namePlaceholder} required />
+                <Field label={copy.phone} name="phone" type="tel" placeholder={copy.phonePlaceholder} required />
+                <Field label={copy.email} name="email" type="email" placeholder={copy.optional} />
+                <label className="grid gap-2 text-sm font-semibold">{copy.product}
                   <select name="product" required className="h-12 rounded-lg border border-input bg-background px-4 font-normal outline-none focus:border-primary">
-                    <option value="تيشيرت">تيشيرت</option><option value="هودي">هودي</option><option value="بولو">بولو</option><option value="ملابس عمل">ملابس عمل</option><option value="أخرى">أخرى</option>
+                    {copy.productOptions.map((option) => <option key={option} value={option}>{option}</option>)}
                   </select>
                 </label>
-                <Field label="الكمية" name="quantity" type="number" placeholder="مثال: 25" min="1" required />
-                <label className="grid gap-2 text-sm font-semibold sm:col-span-2">تفاصيل الطباعة
-                  <textarea name="details" required rows={4} placeholder="الألوان، أماكن الطباعة، المقاسات وأي تفاصيل أخرى..." className="resize-none rounded-lg border border-input bg-background px-4 py-3 font-normal leading-7 outline-none focus:border-primary" />
+                <Field label={copy.quantity} name="quantity" type="number" placeholder={copy.quantityPlaceholder} min="1" required />
+                <label className="grid gap-2 text-sm font-semibold sm:col-span-2">{copy.details}
+                  <textarea name="details" required rows={4} placeholder={copy.detailsPlaceholder} className="resize-none rounded-lg border border-input bg-background px-4 py-3 font-normal leading-7 outline-none focus:border-primary" />
                 </label>
               </div>
-              {status === "error" && <p role="alert" className="mt-5 text-sm font-semibold text-destructive">تعذر إرسال الطلب. تحقق من المعلومات وحاول مرة أخرى.</p>}
-              <Button type="submit" size="lg" disabled={status === "sending"} className="mt-7 h-13 w-full text-base font-bold">{status === "sending" ? "جارٍ الإرسال..." : "إرسال طلب الطباعة"}<ArrowLeft /></Button>
+              {status === "error" && <p role="alert" className="mt-5 text-sm font-semibold text-destructive">{copy.error}</p>}
+              <Button type="submit" size="lg" disabled={status === "sending"} className="mt-7 h-13 w-full text-base font-bold">{status === "sending" ? copy.sending : copy.submit}<ArrowLeft className={isRtl ? "" : "rotate-180"} /></Button>
             </form>
           )}
         </div>
       </section>
 
-      <footer className="bg-surface-strong px-5 pb-8 text-center text-xs text-primary-foreground/50">FIRST ZONE — طباعة بهوية أقوى</footer>
+      <footer className="bg-surface-strong px-5 pb-8 text-center text-xs text-primary-foreground/50">{copy.footer}</footer>
     </main>
   );
 }
