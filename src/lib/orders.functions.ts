@@ -12,7 +12,7 @@ const orderSchema = z.object({
 });
 
 export const submitOrderRequest = createServerFn({ method: "POST" })
-  .inputValidator((input) => orderSchema.parse(input))
+  .validator((input) => orderSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("order_requests").insert({

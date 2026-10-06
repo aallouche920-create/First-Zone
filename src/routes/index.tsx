@@ -43,8 +43,9 @@ function Index() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formElement = event.currentTarget;
     setStatus("sending");
-    const form = new FormData(event.currentTarget);
+    const form = new FormData(formElement);
     try {
       await submitOrder({
         data: {
@@ -57,7 +58,7 @@ function Index() {
           printDetails: String(form.get("details") ?? ""),
         },
       });
-      event.currentTarget.reset();
+      formElement.reset();
       setStatus("success");
     } catch {
       setStatus("error");
