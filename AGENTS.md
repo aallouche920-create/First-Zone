@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the public ordering flow as a single-page, Arabic-first experience because ordering is the site's primary job.
+- Store order requests through a server function and keep public visitors unable to read submitted orders for customer privacy.
