@@ -239,6 +239,26 @@ function Index() {
         </Button>
       </section>
 
+      <section className="pb-16 sm:pb-24">
+        <div className="mx-auto mb-9 max-w-6xl px-5 text-center sm:px-8">
+          <h2 className="text-2xl font-extrabold sm:text-3xl">{copy.trustedTitle}</h2>
+          <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">{copy.trustedSubtitle}</p>
+        </div>
+        <div dir="ltr" className="marquee-fade overflow-hidden">
+          <div className="animate-marquee flex w-max hover:[animation-play-state:paused]">
+            {[0, 1].map((half) => (
+              <div key={half} aria-hidden={half === 1} className="flex">
+                {trustedSlots.map((slot) => (
+                  <div key={slot} className="mx-3 grid h-24 w-40 shrink-0 place-items-center rounded-[1.25rem] border border-border bg-card shadow-sm sm:h-28 sm:w-52">
+                    {/* شعار العميل يوضع هنا لاحقًا */}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section ref={formRef} className="bg-surface-strong px-5 py-16 text-primary-foreground sm:px-8 sm:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.75fr_1.25fr]">
           <div>
