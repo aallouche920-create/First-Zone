@@ -157,6 +157,8 @@ const languageOptions: { id: Language; label: string }[] = [
   { id: "en", label: "English" },
 ];
 
+const trustedSlots = Array.from({ length: 10 }, (_, index) => index);
+
 function Index() {
   const formRef = useRef<HTMLElement>(null);
   const submitOrder = useServerFn(submitOrderRequest);
