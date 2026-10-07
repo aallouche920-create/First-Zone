@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Check, ChevronDown, PackageCheck, Sparkles } from "lucide-react";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
+import heroVideoAsset from "@/assets/first-zone-hero.mp4.asset.json";
 import logoAsset from "@/assets/first-zone-logo.jpg.asset.json";
 import productsImage from "@/assets/first-zone-products.jpg";
 import { Button } from "@/components/ui/button";
@@ -161,6 +162,36 @@ const trustedSlots = Array.from({ length: 10 }, (_, index) => index);
 
 function Index() {
   const formRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const hero = heroRef.current;
+    if (!video || !hero) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      if (!video.duration) return;
+      const rect = hero.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
+      video.currentTime = progress * video.duration;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    video.addEventListener("loadedmetadata", update);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    video.load();
+    update();
+    return () => {
+      video.removeEventListener("loadedmetadata", update);
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   const submitOrder = useServerFn(submitOrderRequest);
   const [language, setLanguage] = useState<Language>("ar");
   const [customerType, setCustomerType] = useState<CustomerType>("company");
@@ -213,12 +244,22 @@ function Index() {
         </div>
       </header>
 
-      <section className="mx-auto max-w-6xl px-5 pb-16 pt-8 sm:px-8 sm:pt-16">
-        <div className="mb-10 max-w-3xl">
-          <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" />{copy.eyebrow}</p>
-          <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
-          <p className="mt-5 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">{copy.intro}</p>
+      <section ref={heroRef} className="relative h-[220vh]">
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          <video ref={videoRef} src={heroVideoAsset.url} muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
+          <div className="absolute inset-0 bg-background/70" aria-hidden="true" />
+          <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
+            <div className="max-w-3xl">
+              <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" />{copy.eyebrow}</p>
+              <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
+              <p className="mt-5 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">{copy.intro}</p>
+            </div>
+          </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-5 pb-16 pt-8 sm:px-8 sm:pt-16">
+
 
         <div className="grid gap-4 lg:grid-cols-3">
           {orderTypes.map((type) => (
