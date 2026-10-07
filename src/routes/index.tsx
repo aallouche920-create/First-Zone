@@ -162,6 +162,35 @@ const trustedSlots = Array.from({ length: 10 }, (_, index) => index);
 
 function Index() {
   const formRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const hero = heroRef.current;
+    if (!video || !hero) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      if (!video.duration) return;
+      const rect = hero.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
+      video.currentTime = progress * video.duration;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    video.addEventListener("loadedmetadata", update);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => {
+      video.removeEventListener("loadedmetadata", update);
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   const submitOrder = useServerFn(submitOrderRequest);
   const [language, setLanguage] = useState<Language>("ar");
   const [customerType, setCustomerType] = useState<CustomerType>("company");
