@@ -183,6 +183,7 @@ function Index() {
     };
     video.addEventListener("loadedmetadata", update);
     window.addEventListener("scroll", onScroll, { passive: true });
+    video.load();
     update();
     return () => {
       video.removeEventListener("loadedmetadata", update);
