@@ -243,12 +243,22 @@ function Index() {
         </div>
       </header>
 
-      <section className="mx-auto max-w-6xl px-5 pb-16 pt-8 sm:px-8 sm:pt-16">
-        <div className="mb-10 max-w-3xl">
-          <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" />{copy.eyebrow}</p>
-          <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
-          <p className="mt-5 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">{copy.intro}</p>
+      <section ref={heroRef} className="relative h-[220vh]">
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          <video ref={videoRef} src={heroVideoAsset.url} muted playsInline preload="auto" className="absolute inset-0 h-full w-full object-cover" aria-hidden="true" />
+          <div className="absolute inset-0 bg-background/70" aria-hidden="true" />
+          <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
+            <div className="max-w-3xl">
+              <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" />{copy.eyebrow}</p>
+              <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
+              <p className="mt-5 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">{copy.intro}</p>
+            </div>
+          </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-5 pb-16 pt-8 sm:px-8 sm:pt-16">
+
 
         <div className="grid gap-4 lg:grid-cols-3">
           {orderTypes.map((type) => (
