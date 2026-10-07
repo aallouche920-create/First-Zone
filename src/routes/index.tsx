@@ -36,6 +36,8 @@ const translations = {
     tagline: "طباعة بجودة تصنع الفرق",
     languageLabel: "اختر اللغة",
     eyebrow: "من فكرتك إلى قطعة تُلبس",
+    trustedTitle: "شركات وثقت بنا",
+    trustedSubtitle: "علامات وشركات اختارت First Zone لطباعة ملابسها",
     title: <>لكل فكرة،<br />طبعتها الخاصة.</>,
     intro: "اختر نوع طلبك، أخبرنا ما تريد، ونحن نهتم بالتفاصيل من الطباعة حتى التجهيز.",
     productImageAlt: "ملابس جاهزة للطباعة",
@@ -73,6 +75,8 @@ const translations = {
     tagline: "Une impression qui fait la différence",
     languageLabel: "Choisir la langue",
     eyebrow: "De votre idée à une pièce à porter",
+    trustedTitle: "Ils nous font confiance",
+    trustedSubtitle: "Des marques et entreprises qui ont choisi First Zone",
     title: <>Chaque idée<br />mérite son impression.</>,
     intro: "Choisissez votre type de commande, décrivez votre projet et nous nous occupons de tout, de l’impression à la préparation.",
     productImageAlt: "Vêtements prêts à imprimer",
@@ -110,6 +114,8 @@ const translations = {
     tagline: "Quality printing that makes a difference",
     languageLabel: "Choose language",
     eyebrow: "From your idea to something you can wear",
+    trustedTitle: "Trusted by",
+    trustedSubtitle: "Brands and companies that chose First Zone",
     title: <>Every idea deserves<br />its own print.</>,
     intro: "Choose your order type, tell us what you need, and we’ll handle every detail from printing to preparation.",
     productImageAlt: "Garments ready for printing",
@@ -150,6 +156,8 @@ const languageOptions: { id: Language; label: string }[] = [
   { id: "fr", label: "Français" },
   { id: "en", label: "English" },
 ];
+
+const trustedSlots = Array.from({ length: 10 }, (_, index) => index);
 
 function Index() {
   const formRef = useRef<HTMLElement>(null);
@@ -229,6 +237,26 @@ function Index() {
         <Button type="button" variant="ghost" onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} aria-label={copy.startNow} className="mx-auto mt-10 flex h-auto flex-col items-center gap-2 text-xs text-muted-foreground">
           {copy.startNow}<ChevronDown className="size-5 animate-bounce" />
         </Button>
+      </section>
+
+      <section className="pb-16 sm:pb-24">
+        <div className="mx-auto mb-9 max-w-6xl px-5 text-center sm:px-8">
+          <h2 className="text-2xl font-extrabold sm:text-3xl">{copy.trustedTitle}</h2>
+          <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">{copy.trustedSubtitle}</p>
+        </div>
+        <div dir="ltr" className="marquee-fade overflow-hidden">
+          <div className="animate-marquee flex w-max hover:[animation-play-state:paused]">
+            {[0, 1].map((half) => (
+              <div key={half} aria-hidden={half === 1} className="flex">
+                {trustedSlots.map((slot) => (
+                  <div key={slot} className="mx-3 grid h-24 w-40 shrink-0 place-items-center rounded-[1.25rem] border border-border bg-card shadow-sm sm:h-28 sm:w-52">
+                    {/* شعار العميل يوضع هنا لاحقًا */}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section ref={formRef} className="bg-surface-strong px-5 py-16 text-primary-foreground sm:px-8 sm:py-24">
