@@ -170,23 +170,33 @@ function Index() {
     if (!video || !form) return;
     let raf = 0;
     let current = 0;
-    const tick = () => {
+    let last = performance.now();
+    let end = 1;
+    const measure = () => {
+      end = Math.max(1, form.getBoundingClientRect().top + window.scrollY - window.innerHeight);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    const tick = (now: number) => {
       raf = requestAnimationFrame(tick);
+      const dt = Math.min(64, now - last);
+      last = now;
       const duration = video.duration;
-      if (!duration || video.readyState < 2) return;
-      const end = form.offsetTop - window.innerHeight;
-      const progress = end > 0 ? Math.min(1, Math.max(0, window.scrollY / end)) : 0;
+      if (!duration || video.readyState < 1) return;
+      const progress = Math.min(1, Math.max(0, window.scrollY / end));
       const target = progress * (duration - 0.05);
       const diff = target - current;
-      if (Math.abs(diff) < 0.002) return;
-      current += diff * 0.12;
-      if (!video.seeking && Math.abs(video.currentTime - current) > 0.01) {
-        video.currentTime = current;
-      }
+      if (Math.abs(diff) < 0.001) return;
+      // frame-rate independent easing for buttery motion
+      current += diff * (1 - Math.exp(-dt / 140));
+      if (!video.seeking) video.currentTime = current;
     };
     video.load();
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", measure);
+    };
   }, []);
 
   const submitOrder = useServerFn(submitOrderRequest);
@@ -228,7 +238,7 @@ function Index() {
   return (
     <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden text-foreground">
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
-        <video ref={videoRef} src={heroVideoAsset.url} muted playsInline preload="auto" className="h-full w-full object-cover [transform:translateZ(0)]" />
+        <video ref={videoRef} src="/videos/hero-scrub.mp4" muted playsInline preload="auto" disablePictureInPicture className="h-full w-full object-cover [transform:translateZ(0)] [will-change:transform]" />
         <div className="absolute inset-0 bg-background/25" />
       </div>
       <header className="mx-auto flex min-h-24 max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
