@@ -162,7 +162,7 @@ const trustedSlots = Array.from({ length: 10 }, (_, index) => index);
 
 function Index() {
   const formRef = useRef<HTMLElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -243,7 +243,7 @@ function Index() {
         </div>
       </header>
 
-      <div ref={heroRef as React.RefObject<HTMLDivElement>} className="relative">
+      <div ref={heroRef} className="relative">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           <div className="sticky top-0 h-screen w-full overflow-hidden">
             <video ref={videoRef} src={heroVideoAsset.url} muted playsInline preload="auto" className="h-full w-full scale-[1.02] object-cover [transform:translateZ(0)] [will-change:transform]" />
