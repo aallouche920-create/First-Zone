@@ -226,7 +226,11 @@ function Index() {
   };
 
   return (
-    <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden text-foreground">
+      <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+        <video ref={videoRef} src={heroVideoAsset.url} muted playsInline preload="auto" className="h-full w-full object-cover [transform:translateZ(0)]" />
+        <div className="absolute inset-0 bg-background/25" />
+      </div>
       <header className="mx-auto flex min-h-24 max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
         <img src={logoAsset.url} alt="First Zone" className="h-14 w-24 rounded-md object-cover object-center" />
         <div className="flex items-center gap-3">
