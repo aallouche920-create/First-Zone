@@ -296,8 +296,6 @@ function Index() {
           </div>
         </div>
       </section>
-      </div>
-      </div>
 
       <section ref={formRef} className="bg-surface-strong px-5 py-16 text-primary-foreground sm:px-8 sm:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.75fr_1.25fr]">
