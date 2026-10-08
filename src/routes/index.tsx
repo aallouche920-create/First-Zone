@@ -3,7 +3,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Check, ChevronDown, PackageCheck, Sparkles } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
-import heroVideoAsset from "@/assets/first-zone-hero.mp4.asset.json";
 import logoAsset from "@/assets/first-zone-logo.jpg.asset.json";
 import productsImage from "@/assets/first-zone-products.jpg";
 import { Button } from "@/components/ui/button";
