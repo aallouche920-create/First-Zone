@@ -162,22 +162,20 @@ const trustedSlots = Array.from({ length: 10 }, (_, index) => index);
 
 function Index() {
   const formRef = useRef<HTMLElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
-    const hero = heroRef.current;
-    if (!video || !hero) return;
+    const form = formRef.current;
+    if (!video || !form) return;
     let raf = 0;
     let current = 0;
     const tick = () => {
       raf = requestAnimationFrame(tick);
       const duration = video.duration;
       if (!duration || video.readyState < 2) return;
-      const rect = hero.getBoundingClientRect();
-      const scrollable = rect.height - window.innerHeight;
-      const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
+      const end = form.offsetTop - window.innerHeight;
+      const progress = end > 0 ? Math.min(1, Math.max(0, window.scrollY / end)) : 0;
       const target = progress * (duration - 0.05);
       const diff = target - current;
       if (Math.abs(diff) < 0.002) return;
@@ -228,7 +226,11 @@ function Index() {
   };
 
   return (
-    <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden text-foreground">
+      <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+        <video ref={videoRef} src={heroVideoAsset.url} muted playsInline preload="auto" className="h-full w-full object-cover [transform:translateZ(0)]" />
+        <div className="absolute inset-0 bg-background/25" />
+      </div>
       <header className="mx-auto flex min-h-24 max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
         <img src={logoAsset.url} alt="First Zone" className="h-14 w-24 rounded-md object-cover object-center" />
         <div className="flex items-center gap-3">
@@ -243,14 +245,6 @@ function Index() {
         </div>
       </header>
 
-      <div ref={heroRef} className="relative">
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="sticky top-0 h-screen w-full overflow-hidden">
-            <video ref={videoRef} src={heroVideoAsset.url} muted playsInline preload="auto" className="h-full w-full scale-[1.02] object-cover [transform:translateZ(0)] [will-change:transform]" />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/35 via-background/10 to-background/40" />
-          </div>
-        </div>
-      <div className="relative">
       <section className="relative flex min-h-[85vh] items-center">
           <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
             <div className="max-w-3xl rounded-[1.5rem] bg-background/55 p-6 backdrop-blur-md sm:p-8">
@@ -302,8 +296,6 @@ function Index() {
           </div>
         </div>
       </section>
-      </div>
-      </div>
 
       <section ref={formRef} className="bg-surface-strong px-5 py-16 text-primary-foreground sm:px-8 sm:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.75fr_1.25fr]">
