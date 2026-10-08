@@ -162,22 +162,20 @@ const trustedSlots = Array.from({ length: 10 }, (_, index) => index);
 
 function Index() {
   const formRef = useRef<HTMLElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
-    const hero = heroRef.current;
-    if (!video || !hero) return;
+    const form = formRef.current;
+    if (!video || !form) return;
     let raf = 0;
     let current = 0;
     const tick = () => {
       raf = requestAnimationFrame(tick);
       const duration = video.duration;
       if (!duration || video.readyState < 2) return;
-      const rect = hero.getBoundingClientRect();
-      const scrollable = rect.height - window.innerHeight;
-      const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
+      const end = form.offsetTop - window.innerHeight;
+      const progress = end > 0 ? Math.min(1, Math.max(0, window.scrollY / end)) : 0;
       const target = progress * (duration - 0.05);
       const diff = target - current;
       if (Math.abs(diff) < 0.002) return;
