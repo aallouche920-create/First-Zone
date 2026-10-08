@@ -245,14 +245,6 @@ function Index() {
         </div>
       </header>
 
-      <div ref={heroRef} className="relative">
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="sticky top-0 h-screen w-full overflow-hidden">
-            <video ref={videoRef} src={heroVideoAsset.url} muted playsInline preload="auto" className="h-full w-full scale-[1.02] object-cover [transform:translateZ(0)] [will-change:transform]" />
-            <div className="absolute inset-0 bg-gradient-to-b from-background/35 via-background/10 to-background/40" />
-          </div>
-        </div>
-      <div className="relative">
       <section className="relative flex min-h-[85vh] items-center">
           <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
             <div className="max-w-3xl rounded-[1.5rem] bg-background/55 p-6 backdrop-blur-md sm:p-8">
