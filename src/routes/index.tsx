@@ -238,7 +238,6 @@ function Index() {
     <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden text-foreground">
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
         <video ref={videoRef} src="/videos/hero-scrub.mp4" muted playsInline preload="auto" disablePictureInPicture className="h-full w-full object-cover [transform:translateZ(0)] [will-change:transform]" />
-        <div className="absolute inset-0 bg-background/45 bg-gradient-to-b from-background/40 via-background/20 to-background/50" />
       </div>
       <header className="mx-auto flex min-h-24 max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
         <img src={logoAsset.url} alt="First Zone" className="h-14 w-24 rounded-md object-cover object-center" />
@@ -256,7 +255,7 @@ function Index() {
 
       <section className="relative flex min-h-[85vh] items-center">
           <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
-            <div className="max-w-3xl rounded-[1.5rem] bg-background/75 p-6 backdrop-blur-md sm:p-8">
+            <div className="max-w-3xl rounded-[1.5rem] bg-card p-6 text-card-foreground sm:p-8">
               <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" />{copy.eyebrow}</p>
               <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
               <p className="mt-5 max-w-xl text-base leading-8 text-foreground/80 sm:text-lg">{copy.intro}</p>
@@ -267,27 +266,27 @@ function Index() {
       <section className="mx-auto max-w-6xl px-5 pb-16 pt-8 sm:px-8 sm:pt-16">
 
 
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-3">
           {orderTypes.map((type) => (
             <article key={type.id} className="group grid min-h-44 grid-cols-[42%_58%] overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-sm lg:min-h-64 lg:grid-cols-1 lg:grid-rows-[52%_48%]">
               <img src={productsImage} alt={copy.productImageAlt} width={1024} height={1024} className={`h-full w-full object-cover ${type.crop}`} />
-              <div className="flex flex-col justify-center p-5 lg:p-6">
+              <div className="flex min-w-0 flex-col justify-center p-4 sm:p-5 lg:p-6">
                 <h2 className="text-xl font-extrabold lg:text-2xl">{copy.orderTypes[type.id].title}</h2>
                 <p className="mt-1 text-sm leading-6 text-muted-foreground">{copy.orderTypes[type.id].text}</p>
-                <Button type="button" variant="link" onClick={() => chooseType(type.id)} className="mt-3 h-auto justify-start p-0 text-sm font-bold no-underline">
-                  {copy.orderTypes[type.id].label}<ArrowLeft className={`size-4 transition-transform ${isRtl ? "group-hover:-translate-x-1" : "rotate-180 group-hover:translate-x-1"}`} />
+                <Button type="button" variant="link" onClick={() => chooseType(type.id)} className="mt-3 h-auto w-full min-w-0 justify-start whitespace-normal p-0 text-start text-sm font-bold leading-6 no-underline">
+                  <span className="min-w-0 break-words">{copy.orderTypes[type.id].label}</span><ArrowLeft className={`size-4 shrink-0 transition-transform ${isRtl ? "group-hover:-translate-x-1" : "rotate-180 group-hover:translate-x-1"}`} />
                 </Button>
               </div>
             </article>
           ))}
         </div>
-        <Button type="button" variant="ghost" onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} aria-label={copy.startNow} className="mx-auto mt-10 flex h-auto flex-col items-center gap-2 text-xs text-muted-foreground">
+        <Button type="button" variant="secondary" onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth" })} aria-label={copy.startNow} className="mx-auto mt-10 flex h-auto max-w-full flex-col items-center gap-2 whitespace-normal bg-card px-5 py-3 text-xs text-card-foreground">
           {copy.startNow}<ChevronDown className="size-5 animate-bounce" />
         </Button>
       </section>
 
       <section className="pb-16 sm:pb-24">
-        <div className="mx-auto mb-9 max-w-6xl px-5 text-center sm:px-8">
+        <div className="mx-auto mb-9 w-fit max-w-[calc(100%-2.5rem)] rounded-lg bg-card px-5 py-4 text-center text-card-foreground sm:max-w-6xl sm:px-8">
           <h2 className="text-2xl font-extrabold sm:text-3xl">{copy.trustedTitle}</h2>
           <p className="mt-2 text-sm leading-7 text-muted-foreground sm:text-base">{copy.trustedSubtitle}</p>
         </div>
@@ -307,8 +306,8 @@ function Index() {
       </section>
 
       <section ref={formRef} className="bg-surface-strong px-5 py-16 text-primary-foreground sm:px-8 sm:py-24">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[0.75fr_1.25fr]">
-          <div>
+        <div className="mx-auto grid w-full min-w-0 max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
+          <div className="min-w-0">
             <span className="inline-flex rounded-full border border-primary-foreground/20 px-4 py-2 text-xs font-semibold">{copy.newOrder}</span>
             <h2 className="mt-6 text-3xl font-extrabold leading-[1.45] sm:text-5xl">{copy.formTitle}</h2>
             <p className="mt-5 max-w-sm text-sm leading-7 text-primary-foreground/65">{copy.formIntro}</p>
@@ -318,29 +317,29 @@ function Index() {
           </div>
 
           {status === "success" ? (
-            <div className="flex min-h-[30rem] flex-col items-center justify-center rounded-[1.5rem] bg-card p-8 text-center text-card-foreground">
+            <div className="flex min-h-[30rem] min-w-0 flex-col items-center justify-center rounded-[1.5rem] bg-card p-8 text-center text-card-foreground">
               <span className="grid size-16 place-items-center rounded-full bg-accent text-primary"><PackageCheck className="size-8" /></span>
               <h3 className="mt-6 text-2xl font-extrabold">{copy.successTitle}</h3>
               <p className="mt-3 text-sm leading-7 text-muted-foreground">{copy.successText}</p>
               <Button className="mt-7" onClick={() => setStatus("idle")}>{copy.anotherOrder}</Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="min-w-0 rounded-[1.5rem] bg-card p-4 text-card-foreground shadow-2xl sm:p-8">
-              <div className="mb-7 grid grid-cols-3 gap-1 rounded-xl bg-muted p-1.5">
-                {orderTypes.map((type) => <Button key={type.id} type="button" variant={customerType === type.id ? "default" : "ghost"} onClick={() => setCustomerType(type.id)} className="h-11 min-w-0 truncate px-1 text-[11px] sm:px-2 sm:text-sm">{copy.orderTypes[type.id].title}</Button>)}
+            <form onSubmit={handleSubmit} className="w-full min-w-0 rounded-[1.5rem] bg-card p-4 text-card-foreground shadow-2xl sm:p-8">
+              <div className="mb-7 grid min-w-0 grid-cols-3 gap-1 rounded-xl bg-muted p-1.5">
+                {orderTypes.map((type) => <Button key={type.id} type="button" variant={customerType === type.id ? "default" : "ghost"} onClick={() => setCustomerType(type.id)} aria-pressed={customerType === type.id} className="h-12 min-w-0 whitespace-normal px-1 text-[11px] leading-5 sm:px-2 sm:text-sm">{copy.orderTypes[type.id].title}</Button>)}
               </div>
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid min-w-0 grid-cols-1 gap-5 sm:grid-cols-2">
                 <Field label={copy.name} name="name" placeholder={copy.namePlaceholder} required />
                 <Field label={copy.phone} name="phone" type="tel" placeholder={copy.phonePlaceholder} required />
                 <Field label={copy.email} name="email" type="email" placeholder={copy.optional} />
-                <label className="grid gap-2 text-sm font-semibold">{copy.product}
-                  <select name="product" required className="h-12 rounded-lg border border-input bg-background px-4 font-normal outline-none focus:border-primary">
+                <label className="grid min-w-0 grid-cols-1 gap-2 text-sm font-semibold">{copy.product}
+                  <select name="product" required className="h-12 w-full min-w-0 max-w-full rounded-lg border border-input bg-background px-4 font-normal outline-none focus:border-primary">
                     {copy.productOptions.map((option) => <option key={option} value={option}>{option}</option>)}
                   </select>
                 </label>
                 <Field label={copy.quantity} name="quantity" type="number" placeholder={copy.quantityPlaceholder} min="1" required />
-                <label className="grid gap-2 text-sm font-semibold sm:col-span-2">{copy.details}
-                  <textarea name="details" required rows={4} placeholder={copy.detailsPlaceholder} className="resize-none rounded-lg border border-input bg-background px-4 py-3 font-normal leading-7 outline-none focus:border-primary" />
+                <label className="grid min-w-0 grid-cols-1 gap-2 text-sm font-semibold sm:col-span-2">{copy.details}
+                  <textarea name="details" required rows={4} placeholder={copy.detailsPlaceholder} className="w-full min-w-0 max-w-full resize-none rounded-lg border border-input bg-background px-4 py-3 font-normal leading-7 outline-none focus:border-primary" />
                 </label>
               </div>
               {status === "error" && <p role="alert" className="mt-5 text-sm font-semibold text-destructive">{copy.error}</p>}
@@ -356,5 +355,5 @@ function Index() {
 }
 
 function Field({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
-  return <label className="grid gap-2 text-sm font-semibold">{label}<input {...props} className="h-12 rounded-lg border border-input bg-background px-4 font-normal outline-none focus:border-primary" /></label>;
+  return <label className="grid min-w-0 grid-cols-1 gap-2 text-sm font-semibold">{label}<input {...props} className="h-12 w-full min-w-0 max-w-full rounded-lg border border-input bg-background px-4 font-normal outline-none focus:border-primary" /></label>;
 }
