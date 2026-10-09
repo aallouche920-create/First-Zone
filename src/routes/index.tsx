@@ -238,7 +238,7 @@ function Index() {
     <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden text-foreground">
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
         <video ref={videoRef} src="/videos/hero-scrub.mp4" muted playsInline preload="auto" disablePictureInPicture className="h-full w-full object-cover [transform:translateZ(0)] [will-change:transform]" />
-        <div className="absolute inset-0 bg-background/25" />
+        <div className="absolute inset-0 bg-background/45 bg-gradient-to-b from-background/40 via-background/20 to-background/50" />
       </div>
       <header className="mx-auto flex min-h-24 max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
         <img src={logoAsset.url} alt="First Zone" className="h-14 w-24 rounded-md object-cover object-center" />
@@ -256,7 +256,7 @@ function Index() {
 
       <section className="relative flex min-h-[85vh] items-center">
           <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
-            <div className="max-w-3xl rounded-[1.5rem] bg-background/55 p-6 backdrop-blur-md sm:p-8">
+            <div className="max-w-3xl rounded-[1.5rem] bg-background/75 p-6 backdrop-blur-md sm:p-8">
               <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" />{copy.eyebrow}</p>
               <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
               <p className="mt-5 max-w-xl text-base leading-8 text-foreground/80 sm:text-lg">{copy.intro}</p>
@@ -307,7 +307,7 @@ function Index() {
       </section>
 
       <section ref={formRef} className="bg-surface-strong px-5 py-16 text-primary-foreground sm:px-8 sm:py-24">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.75fr_1.25fr]">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[0.75fr_1.25fr]">
           <div>
             <span className="inline-flex rounded-full border border-primary-foreground/20 px-4 py-2 text-xs font-semibold">{copy.newOrder}</span>
             <h2 className="mt-6 text-3xl font-extrabold leading-[1.45] sm:text-5xl">{copy.formTitle}</h2>
@@ -325,9 +325,9 @@ function Index() {
               <Button className="mt-7" onClick={() => setStatus("idle")}>{copy.anotherOrder}</Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="rounded-[1.5rem] bg-card p-6 text-card-foreground shadow-2xl sm:p-8">
-              <div className="mb-7 grid grid-cols-3 gap-2 rounded-xl bg-muted p-1.5">
-                {orderTypes.map((type) => <Button key={type.id} type="button" variant={customerType === type.id ? "default" : "ghost"} onClick={() => setCustomerType(type.id)} className="h-11 px-2 text-xs sm:text-sm">{copy.orderTypes[type.id].title}</Button>)}
+            <form onSubmit={handleSubmit} className="min-w-0 rounded-[1.5rem] bg-card p-4 text-card-foreground shadow-2xl sm:p-8">
+              <div className="mb-7 grid grid-cols-3 gap-1 rounded-xl bg-muted p-1.5">
+                {orderTypes.map((type) => <Button key={type.id} type="button" variant={customerType === type.id ? "default" : "ghost"} onClick={() => setCustomerType(type.id)} className="h-11 min-w-0 truncate px-1 text-[11px] sm:px-2 sm:text-sm">{copy.orderTypes[type.id].title}</Button>)}
               </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field label={copy.name} name="name" placeholder={copy.namePlaceholder} required />
