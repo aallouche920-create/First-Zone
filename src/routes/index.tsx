@@ -236,8 +236,8 @@ function Index() {
 
   return (
     <main lang={language} dir={isRtl ? "rtl" : "ltr"} className="min-h-screen overflow-x-hidden text-foreground">
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-background" aria-hidden="true">
-        <video ref={videoRef} src="/videos/hero-scrub.mp4" muted playsInline preload="auto" disablePictureInPicture className="h-full w-full scale-[0.94] bg-background object-cover [transform-origin:center] [will-change:transform]" />
+      <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+        <video ref={videoRef} src="/videos/hero-scrub.mp4" muted playsInline preload="auto" disablePictureInPicture className="h-full w-full object-cover [transform:translateZ(0)] [will-change:transform]" />
       </div>
       <header className="mx-auto flex min-h-24 max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
         <img src={logoAsset.url} alt="First Zone" className="h-14 w-24 rounded-md object-cover object-center" />
