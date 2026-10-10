@@ -226,6 +226,16 @@ function Index() {
     setStatus("sending");
     const form = new FormData(formElement);
     try {
+      let logo: { name: string; type: "image/png" | "image/jpeg" | "image/webp" | "image/svg+xml"; dataUrl: string } | undefined;
+      if (logoFile) {
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result));
+          reader.onerror = () => reject(new Error("read failed"));
+          reader.readAsDataURL(logoFile);
+        });
+        logo = { name: logoFile.name, type: logoFile.type as typeof logo.type, dataUrl };
+      }
       await submitOrder({
         data: {
           customerType,
@@ -235,9 +245,11 @@ function Index() {
           productType: String(form.get("product") ?? ""),
           quantity: Number(form.get("quantity") ?? 1),
           printDetails: String(form.get("details") ?? ""),
+          logo,
         },
       });
       formElement.reset();
+      setLogoFile(null);
       setStatus("success");
     } catch {
       setStatus("error");
