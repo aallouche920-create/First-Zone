@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, Check, ChevronDown, PackageCheck, Sparkles } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, ImagePlus, PackageCheck, Sparkles, X } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 import logoAsset from "@/assets/first-zone-logo.jpg.asset.json";
@@ -66,6 +66,9 @@ const translations = {
     quantityPlaceholder: "مثال: 25",
     details: "تفاصيل الطباعة",
     detailsPlaceholder: "الألوان، أماكن الطباعة، المقاسات وأي تفاصيل أخرى...",
+    logo: "صورة الشعار (اللوجو)",
+    logoHint: "PNG أو JPG — حتى 10MB",
+    logoChoose: "اختر صورة الشعار",
     error: "تعذر إرسال الطلب. تحقق من المعلومات وحاول مرة أخرى.",
     sending: "جارٍ الإرسال...",
     submit: "إرسال طلب الطباعة",
@@ -105,6 +108,9 @@ const translations = {
     quantityPlaceholder: "Exemple : 25",
     details: "Détails d’impression",
     detailsPlaceholder: "Couleurs, emplacements, tailles et autres détails...",
+    logo: "Image du logo",
+    logoHint: "PNG ou JPG — 10 Mo max",
+    logoChoose: "Choisir le logo",
     error: "Impossible d’envoyer la demande. Vérifiez les informations et réessayez.",
     sending: "Envoi en cours...",
     submit: "Envoyer la demande",
@@ -144,6 +150,9 @@ const translations = {
     quantityPlaceholder: "Example: 25",
     details: "Printing details",
     detailsPlaceholder: "Colors, print placement, sizes, and any other details...",
+    logo: "Logo image",
+    logoHint: "PNG or JPG — up to 10MB",
+    logoChoose: "Choose logo image",
     error: "We couldn’t send your request. Check the information and try again.",
     sending: "Sending...",
     submit: "Send printing request",
@@ -202,6 +211,7 @@ function Index() {
   const [language, setLanguage] = useState<Language>("ar");
   const [customerType, setCustomerType] = useState<CustomerType>("company");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [logoFile, setLogoFile] = useState<File | null>(null);
   const copy = translations[language];
   const isRtl = language === "ar";
 
@@ -216,6 +226,17 @@ function Index() {
     setStatus("sending");
     const form = new FormData(formElement);
     try {
+      let logo: { name: string; type: "image/png" | "image/jpeg" | "image/webp" | "image/svg+xml"; dataUrl: string } | undefined;
+      if (logoFile) {
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result));
+          reader.onerror = () => reject(new Error("read failed"));
+          reader.readAsDataURL(logoFile);
+        });
+        const type = logoFile.type as "image/png" | "image/jpeg" | "image/webp" | "image/svg+xml";
+        logo = { name: logoFile.name, type, dataUrl };
+      }
       await submitOrder({
         data: {
           customerType,
@@ -225,9 +246,11 @@ function Index() {
           productType: String(form.get("product") ?? ""),
           quantity: Number(form.get("quantity") ?? 1),
           printDetails: String(form.get("details") ?? ""),
+          logo,
         },
       });
       formElement.reset();
+      setLogoFile(null);
       setStatus("success");
     } catch {
       setStatus("error");
@@ -341,6 +364,34 @@ function Index() {
                 <label className="grid min-w-0 grid-cols-1 gap-2 text-sm font-semibold sm:col-span-2">{copy.details}
                   <textarea name="details" required rows={4} placeholder={copy.detailsPlaceholder} className="w-full min-w-0 max-w-full resize-none rounded-lg border border-input bg-background px-4 py-3 font-normal leading-7 outline-none focus:border-primary" />
                 </label>
+                <div className="grid min-w-0 grid-cols-1 gap-2 text-sm font-semibold sm:col-span-2">
+                  <span>{copy.logo} <span className="font-normal text-muted-foreground">({copy.optional})</span></span>
+                  <input
+                    id="logo-upload"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                    className="sr-only"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0] ?? null;
+                      if (file && file.size > 10 * 1024 * 1024) {
+                        event.target.value = "";
+                        setLogoFile(null);
+                        return;
+                      }
+                      setLogoFile(file);
+                    }}
+                  />
+                  <label htmlFor="logo-upload" className="flex h-24 w-full min-w-0 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-input bg-background px-4 text-center font-normal text-muted-foreground transition-colors hover:border-primary hover:text-foreground">
+                    <ImagePlus className="size-5" />
+                    <span className="text-xs leading-5">{logoFile ? logoFile.name : copy.logoChoose}</span>
+                    <span className="text-[11px] text-muted-foreground/70">{copy.logoHint}</span>
+                  </label>
+                  {logoFile && (
+                    <Button type="button" variant="ghost" size="sm" onClick={() => setLogoFile(null)} className="justify-self-start text-xs text-muted-foreground">
+                      <X className="size-3.5" />{logoFile.name}
+                    </Button>
+                  )}
+                </div>
               </div>
               {status === "error" && <p role="alert" className="mt-5 text-sm font-semibold text-destructive">{copy.error}</p>}
               <Button type="submit" size="lg" disabled={status === "sending"} className="mt-7 h-13 w-full text-base font-bold">{status === "sending" ? copy.sending : copy.submit}<ArrowLeft className={isRtl ? "" : "rotate-180"} /></Button>
