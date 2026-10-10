@@ -234,7 +234,8 @@ function Index() {
           reader.onerror = () => reject(new Error("read failed"));
           reader.readAsDataURL(logoFile);
         });
-        logo = { name: logoFile.name, type: logoFile.type as typeof logo.type, dataUrl };
+        const type = logoFile.type as "image/png" | "image/jpeg" | "image/webp" | "image/svg+xml";
+        logo = { name: logoFile.name, type, dataUrl };
       }
       await submitOrder({
         data: {
