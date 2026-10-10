@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Check, ChevronDown, ImagePlus, PackageCheck, Sparkles, X } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
-import logoAsset from "@/assets/first-zone-logo.jpg.asset.json";
+import logoImage from "@/assets/first-zone-logo.jpg";
 import productsImage from "@/assets/first-zone-products.jpg";
 import { Button } from "@/components/ui/button";
 import { submitOrderRequest } from "@/lib/orders.functions";
@@ -263,7 +263,7 @@ function Index() {
         <video ref={videoRef} src="/videos/hero-scrub.mp4" muted playsInline preload="auto" disablePictureInPicture className="h-full w-full object-cover [transform:translateZ(0)] [will-change:transform]" />
       </div>
       <header className="mx-auto flex min-h-24 max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-8">
-        <img src={logoAsset.url} alt="First Zone" className="h-14 w-24 rounded-md object-cover object-center" />
+        <img src={logoImage} alt="First Zone" className="h-14 w-24 rounded-md object-cover object-center" />
         <div className="flex items-center gap-3">
           <span className="hidden text-xs font-semibold text-muted-foreground lg:inline">{copy.tagline}</span>
           <div role="group" aria-label={copy.languageLabel} className="flex rounded-lg border border-border bg-card p-1 shadow-sm">
@@ -279,7 +279,7 @@ function Index() {
       <section className="relative flex min-h-[85vh] items-center">
           <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
             <div className="max-w-3xl rounded-[1.5rem] bg-card p-6 text-card-foreground sm:p-8">
-              <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><img src={logoAsset.url} alt="" aria-hidden="true" className="size-7 rounded-md object-cover object-[50%_35%]" />{copy.eyebrow}</p>
+              <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><img src={logoImage} alt="" aria-hidden="true" className="size-7 rounded-md object-cover object-[50%_35%]" />{copy.eyebrow}</p>
               <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
               <p className="mt-5 max-w-xl text-base leading-8 text-foreground/80 sm:text-lg">{copy.intro}</p>
             </div>
