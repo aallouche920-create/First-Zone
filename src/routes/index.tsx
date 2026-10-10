@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, Check, ChevronDown, PackageCheck, Sparkles } from "lucide-react";
+import { ArrowLeft, Check, ChevronDown, ImagePlus, PackageCheck, Sparkles, X } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 import logoAsset from "@/assets/first-zone-logo.jpg.asset.json";
@@ -211,6 +211,7 @@ function Index() {
   const [language, setLanguage] = useState<Language>("ar");
   const [customerType, setCustomerType] = useState<CustomerType>("company");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [logoFile, setLogoFile] = useState<File | null>(null);
   const copy = translations[language];
   const isRtl = language === "ar";
 
