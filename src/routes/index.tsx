@@ -279,7 +279,7 @@ function Index() {
       <section className="relative flex min-h-[85vh] items-center">
           <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
             <div className="max-w-3xl rounded-[1.5rem] bg-card p-6 text-card-foreground sm:p-8">
-              <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><Sparkles className="size-4" />{copy.eyebrow}</p>
+              <p className="mb-4 flex items-center gap-2 text-sm font-bold text-brand-blue"><img src={logoAsset.url} alt="" aria-hidden="true" className="size-7 rounded-md object-cover object-[50%_35%]" />{copy.eyebrow}</p>
               <h1 className="text-4xl font-extrabold leading-[1.35] sm:text-6xl">{copy.title}</h1>
               <p className="mt-5 max-w-xl text-base leading-8 text-foreground/80 sm:text-lg">{copy.intro}</p>
             </div>
