@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# First Zone
+
+اريد ان اصنع موقع للطلبيات وفي نفس الوقت ساضيف فيه كل مرة شيء يشرح عمل الشركة (هذا الموقع سيكون لشركة تطبع على الملابس والتيشيرتات للشركات الاخرى وللناس ولاي شيء) اجعله اولا للطلب بنفس هذا الستايل فالصفحة الاولى وهذا هو الشعار الخاص بهم
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://first-zone.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/d8ed8b3c-49d5-4002-a40d-ea187e81e20e).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
