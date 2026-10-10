@@ -21,6 +21,7 @@ export type Database = {
           customer_type: string
           email: string | null
           id: string
+          logo_path: string | null
           phone: string
           print_details: string
           product_type: string
@@ -33,6 +34,7 @@ export type Database = {
           customer_type: string
           email?: string | null
           id?: string
+          logo_path?: string | null
           phone: string
           print_details: string
           product_type: string
@@ -45,6 +47,7 @@ export type Database = {
           customer_type?: string
           email?: string | null
           id?: string
+          logo_path?: string | null
           phone?: string
           print_details?: string
           product_type?: string
